@@ -1,0 +1,6 @@
+fastapi
+jinja2
+mysql-connector-python
+black
+uvicorn
+python-multipart

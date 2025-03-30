@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test bazy danych</title>
+    <link rel="stylesheet" href="/static/query_input.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Test bazy danych</h1>
+        <form action="/test-db-connection" method="post">
+            <label for="query">Zapytanie SELECT:</label>
+            <textarea id="query" name="query" rows="4" required></textarea><br><br>
+            <button type="submit">Wykonaj zapytanie</button>
+        </form>
+
+        {% if result is not none %}
+        <h2>Wynik zapytania:</h2>
+        <table>
+            <thead>
+                <tr>
+                    {% for key in result[0].keys() %}
+                        <th>{{ key }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in result %}
+                <tr>
+                    {% for value in row.values() %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</body>
+</html>
