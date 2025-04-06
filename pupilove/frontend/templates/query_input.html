@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test bazy danych</title>
+    <title>Test DB connection</title>
     <link rel="stylesheet" href="/static/query_input.css">
+    <link rel="stylesheet" href="/static/base.css">
 </head>
 <body>
     <div class="container">
-        <h1>Test bazy danych</h1>
+        <a href="/" class="home-link">
+            <h1 class="page-heading">Pupilove</h1>
+        </a>
+        <h1>Test DB connection</h1>
         <form action="/test-db-connection" method="post">
-            <label for="query">Zapytanie SELECT:</label>
+            <label for="query">SELECT query:</label>
             <textarea id="query" name="query" rows="4" required></textarea><br><br>
-            <button type="submit">Wykonaj zapytanie</button>
+            <button type="submit">Execute query</button>
         </form>
 
         {% if result is not none %}
-        <h2>Wynik zapytania:</h2>
+        <h2>Query result:</h2>
         <table>
             <thead>
                 <tr>

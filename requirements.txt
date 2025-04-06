@@ -4,3 +4,5 @@ mysql-connector-python
 black
 uvicorn
 python-multipart
+requests
+starlette
