@@ -29,6 +29,14 @@ class MySQLWrapper:
         cursor.close()
         return affected_rows
 
+    def execute_insert(self, query: str, params: tuple = ()) -> int:
+        cursor = self.connection.cursor()
+        cursor.execute(query, params)
+        self.connection.commit()
+        last_inserted_id = cursor.lastrowid
+        cursor.close()
+        return last_inserted_id
+
     def __del__(self):
         if self.connection.is_connected():
             self.connection.close()

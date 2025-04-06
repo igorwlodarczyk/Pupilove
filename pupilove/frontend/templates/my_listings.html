@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦝 Pupilove - My listings</title>
+    <link rel="stylesheet" href="/static/my_listings.css">
+    <link rel="stylesheet" href="/static/base.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="home-link">
+            <h1 class="page-heading">🦝 Pupilove 🦝</h1>
+        </a>
+
+        {% if listings %}
+        {% for listing in listings %}
+            <div class="listing-details">
+                <h2 class="listing-title">{{ listing.title }}</h2>
+                <p class="listing-status">Status: <strong>{{ listing.status }}</strong></p>
+
+                {% if listing.has_pending_reservations != 0 %}
+                    <div class="reservation-info">
+                        <h3 class="reservation-header">Pending Reservation</h3>
+                        <p><strong>Reserved by:</strong> {{ listing.reserver_username }}</p>
+                        <p><strong>Email:</strong> {{ listing.reserver_email }}</p>
+
+                        <div class="reservation-buttons">
+                            <form action="/reservation-decision/{{ listing.reservation_id }}/accept" method="post">
+                                <button type="submit" class="button accept-button">Accept</button>
+                            </form>
+                            <form action="/reservation-decision/{{ listing.reservation_id }}/decline" method="post">
+                                <button type="submit" class="button decline-button">Decline</button>
+                            </form>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="no-reservations-message">No pending reservations.</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="no-listings-message">No listings available at the moment.</p>
+    {% endif %}
+    </div>
+</body>
+</html>

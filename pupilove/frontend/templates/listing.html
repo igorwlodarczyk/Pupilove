@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦝 Pupilove - {{ listing_data.title }}</title>
+    <link rel="stylesheet" href="/static/listing.css">
+    <link rel="stylesheet" href="/static/base.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="home-link">
+            <h1 class="page-heading">🦝 Pupilove 🦝</h1>
+        </a>
+
+        <h2>{{ listing_data.title }}</h2>
+
+        <p><strong>Published at:</strong> {{ listing_data.published_at }}</p>
+        <p><strong>Description:</strong> {{ listing_data.description }}</p>
+        <p><strong>Status:</strong> {{ listing_data.status }}</p>
+        <p><strong>Location:</strong> {{ listing_data.location_name }}</p>
+        <p><strong>Creator:</strong> {{ listing_data.creator_user_name }}</p>
+
+        <form action="/make-reservation/{{ listing_data.id }}" method="POST">
+            <button type="submit" class="make-reservation-btn">Make Reservation</button>
+        </form>
+    </div>
+</body>
+</html>

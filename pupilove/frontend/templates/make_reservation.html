@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦧 Pupilove - Reservation</title>
+    <link rel="stylesheet" href="/static/make_reservation.css">
+    <link rel="stylesheet" href="/static/base.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="home-link">
+            <h1 class="page-heading">🦧 Pupilove 🦧</h1>
+        </a>
+
+        {% if success %}
+            <div class="success-message">
+                <p>Your reservation was successful!</p>
+                <p>You are in position #{{ position_in_queue }} in the queue.</p>
+            </div>
+        {% elif error_message %}
+            <div class="error-message">
+                <p>Sorry, the reservation could not be completed.</p>
+                <p>Error: {{ error_message }}</p>
+            </div>
+        {% else %}
+            <div class="error-message">
+                <p>Sorry, the reservation could not be completed. Please try again later.</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

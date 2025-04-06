@@ -1,0 +1,20 @@
+.listings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.listings-table th, .listings-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.listings-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.listings-table tr:hover {
+    background-color: #f9f9f9;
+}
