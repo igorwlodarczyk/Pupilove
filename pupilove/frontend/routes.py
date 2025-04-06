@@ -12,6 +12,7 @@ current_dir = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=current_dir / "templates")
 BACKEND_URL = os.getenv("BACKEND_URL")
 
+
 @router.get("/")
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
@@ -25,9 +26,7 @@ def query_input_form(request: Request):
 
 
 @router.post("/test-db-connection", response_class=HTMLResponse)
-def query_input(
-    request: Request, query: str = Form(...)
-):
+def query_input(request: Request, query: str = Form(...)):
     response = requests.get(f"{BACKEND_URL}/execute-select", params={"query": query})
     if response.ok:
         result = response.json()
@@ -35,5 +34,6 @@ def query_input(
             "query_input.html", {"request": request, "result": result}
         )
     else:
-        return RedirectResponse(url="/test-db-connection", status_code=status.HTTP_302_FOUND)
-
+        return RedirectResponse(
+            url="/test-db-connection", status_code=status.HTTP_302_FOUND
+        )
