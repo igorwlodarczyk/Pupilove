@@ -6,6 +6,7 @@ export DB_USER="pupilove_admin"
 export DB_PASSWORD="12345"
 export DB_NAME="pupilove"
 export DB_PORT="5001"
+CONTAINER_NAME="pupilove_percona_mysql"
 DB_SCHEMA_FILE="scripts/db_schema.sql"
 SAMPLE_DATA_SQL_FILE="scripts/sample_data.sql"
 

@@ -1,4 +1,5 @@
 import requests
+import os
 import starlette.status as status
 from pathlib import Path
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -9,7 +10,7 @@ from fastapi.templating import Jinja2Templates
 router = APIRouter()
 current_dir = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=current_dir / "templates")
-BASE_URL = "http://localhost:8000"
+BACKEND_URL = os.getenv("BACKEND_URL")
 
 @router.get("/")
 async def home(request: Request):
@@ -27,7 +28,7 @@ def query_input_form(request: Request):
 def query_input(
     request: Request, query: str = Form(...)
 ):
-    response = requests.get(f"{BASE_URL}/execute-select", params={"query": query})
+    response = requests.get(f"{BACKEND_URL}/execute-select", params={"query": query})
     if response.ok:
         result = response.json()
         return templates.TemplateResponse(
