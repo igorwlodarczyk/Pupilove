@@ -1,0 +1,43 @@
+.decision-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+    text-align: center;
+}
+
+.decision-container h2 {
+    font-size: 2rem;
+    color: #4CAF50;
+}
+
+.decision-container p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.decision-container strong {
+    color: #FF5722;
+    font-weight: bold;
+}
+
+.back-home {
+    font-size: 1.1rem;
+    color: #007BFF;
+    margin-top: 20px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.back-home:hover {
+    text-decoration: underline;
+    opacity: 0.7;
+}
+
+.page-heading {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 30px;
+}

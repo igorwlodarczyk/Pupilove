@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐊 Pupilove - My Reservations</title>
+    <link rel="stylesheet" href="/static/my_reservations.css">
+    <link rel="stylesheet" href="/static/base.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="home-link">
+            <h1 class="page-heading">🐊 Pupilove 🐊</h1>
+        </a>
+
+        {% if reservations and reservations.reservations %}
+            <div class="reservations-list">
+                {% for reservation in reservations.reservations %}
+                    <div class="reservation-card">
+                        <h2 class="listing-title">{{ reservation.listing_title }}</h2>
+                        <p><strong>Status:</strong> {{ reservation.reservation_status }}</p>
+                        <p><strong>Created At:</strong> {{ reservation.reservation_created_at }}</p>
+                        <p><strong>Listing Status:</strong> {{ reservation.listing_status }}</p>
+                        <p><strong>Listing Created At:</strong> {{ reservation.listing_created_at }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-reservations">You have no reservations at the moment.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

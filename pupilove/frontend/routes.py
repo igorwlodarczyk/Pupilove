@@ -95,10 +95,43 @@ def make_reservation(request: Request, listing_id: int):
 
 @router.get("/my-listings", response_class=HTMLResponse)
 def my_listings(request: Request):
-    response = requests.get(f"{BACKEND_URL}/user-listings?creator_user_id={3}")
+    response = requests.get(
+        f"{BACKEND_URL}/user-listings?creator_user_id={DEFAULT_CREATOR_USER_ID}"
+    )
     if response.ok:
         listings = response.json()
         return templates.TemplateResponse(
             "my_listings.html",
             {"request": request, "listings": listings},
         )
+
+
+@router.post(
+    "/reservation-decision/{reservation_id}/{decision}", response_class=HTMLResponse
+)
+def reservation_decision(request: Request, reservation_id: int, decision: str):
+    response = requests.post(
+        f"{BACKEND_URL}//make-decision/{reservation_id}/{decision}"
+    )
+    if response.ok:
+        return templates.TemplateResponse(
+            "reservation_decision.html",
+            {"request": request, "decision": decision},
+        )
+    else:
+        ...
+
+
+@router.get("/my-reservations", response_class=HTMLResponse)
+def my_reservation(request: Request):
+    response = requests.get(
+        f"{BACKEND_URL}/user-reservations?reserver_user_id={DEFAULT_RESERVER_USER_ID}"
+    )
+    if response.ok:
+        reservations = response.json()
+        return templates.TemplateResponse(
+            "my_reservations.html",
+            {"request": request, "reservations": reservations},
+        )
+    else:
+        ...

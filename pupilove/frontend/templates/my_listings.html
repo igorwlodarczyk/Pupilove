@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🦝 Pupilove - My listings</title>
+    <title>🐊 Pupilove - My listings</title>
     <link rel="stylesheet" href="/static/my_listings.css">
     <link rel="stylesheet" href="/static/base.css">
 </head>
 <body>
     <div class="container">
         <a href="/" class="home-link">
-            <h1 class="page-heading">🦝 Pupilove 🦝</h1>
+            <h1 class="page-heading">🐊 Pupilove 🐊</h1>
         </a>
 
         {% if listings %}
@@ -19,7 +19,7 @@
                 <h2 class="listing-title">{{ listing.title }}</h2>
                 <p class="listing-status">Status: <strong>{{ listing.status }}</strong></p>
 
-                {% if listing.has_pending_reservations != 0 %}
+                {% if listing.has_pending_reservations != 0 and listing.status == 'active' %}
                     <div class="reservation-info">
                         <h3 class="reservation-header">Pending Reservation</h3>
                         <p><strong>Reserved by:</strong> {{ listing.reserver_username }}</p>
@@ -34,7 +34,7 @@
                             </form>
                         </div>
                     </div>
-                {% else %}
+                {% elif listing.status == 'active' %}
                     <p class="no-reservations-message">No pending reservations.</p>
                 {% endif %}
             </div>

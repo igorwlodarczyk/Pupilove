@@ -21,6 +21,7 @@ INSERT INTO locations (name, gps_coordinates) VALUES
 
 INSERT INTO listings (title, creator_user_id, animal_category_id, age, location_id, description) VALUES
 ('Bark Vader', 3, 1, 5, 3, 'May the paws be with you. This dog has an undeniable presence. Beware of his epic howls.'),
+('Paw-some Explorer', 6, 1, 3, 5, 'This adventurous dog loves exploring new places. Ready for outdoor fun!'),
 ('Whisker Wizard', 3, 2, 4, 4, 'This cat will cast a spell on your heart, but also on your furniture. Expect mysterious claw marks.');
 
 INSERT INTO reservations (listing_id, reserver_user_id) VALUES

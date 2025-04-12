@@ -1,8 +1,12 @@
+import logging
 from fastapi import APIRouter, Depends, HTTPException
 from database import get_db_connection
 from fastapi.responses import JSONResponse
 
 router = APIRouter()
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 @router.get("/execute-select", response_class=JSONResponse)
@@ -182,3 +186,66 @@ def get_user_listings(creator_user_id: int, db=Depends(get_db_connection)):
     params = (creator_user_id,)
     result = db.execute_select(query, params)
     return result
+
+
+@router.post("/make-decision/{reservation_id}/{decision}", response_class=JSONResponse)
+def make_decision(reservation_id: int, decision: str, db=Depends(get_db_connection)):
+    new_status = "accepted" if decision == "accept" else "declined"
+    reservation_update_query = """
+        UPDATE reservations
+        SET status = %s
+        WHERE id = %s AND status = 'pending';
+        """
+    affected_rows = db.execute_update(
+        reservation_update_query, (new_status, reservation_id)
+    )
+
+    if affected_rows == 0:
+        raise HTTPException(
+            status_code=404, detail="Reservation not found or already processed."
+        )
+
+    get_listing_id_query = "SELECT listing_id FROM reservations WHERE id = %s;"
+
+    listing_id = db.execute_select(get_listing_id_query, (reservation_id,))[0][
+        "listing_id"
+    ]
+
+    if new_status == "accepted":
+        listing_update_query = """
+            UPDATE listings
+            SET status = 'inactive'
+            WHERE id = %s;
+            """
+        db.execute_update(listing_update_query, (listing_id,))
+
+        decline_remaining_reservations_query = """
+            UPDATE reservations
+            SET status = 'declined'
+            WHERE listing_id = %s
+            AND status = 'pending' AND id != %s;
+            """
+        db.execute_update(
+            decline_remaining_reservations_query, (listing_id, reservation_id)
+        )
+    return {"message": f"Decision '{new_status}' applied."}
+
+
+@router.get("/user-reservations", response_class=JSONResponse)
+def get_user_reservations(reserver_user_id: int, db=Depends(get_db_connection)):
+    query = """
+            SELECT r.id AS reservation_id,
+                   r.listing_id,
+                   r.reserver_user_id,
+                   r.status AS reservation_status,
+                   r.created_at AS reservation_created_at,
+                   l.title AS listing_title,
+                   l.status AS listing_status,
+                   l.published_at AS listing_created_at
+            FROM reservations r
+            JOIN listings l ON r.listing_id = l.id
+            WHERE r.reserver_user_id = %s;
+        """
+    params = (reserver_user_id,)
+    result = db.execute_select(query, params)
+    return {"reservations": result}
