@@ -1,0 +1,68 @@
+.results-header {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.results-header h2 {
+    font-size: 1.75rem;
+    color: #333;
+}
+
+.highlight {
+    color: #0077cc;
+    font-weight: bold;
+}
+
+.info-text {
+    margin-top: 0.5rem;
+    color: #555;
+}
+
+.no-results {
+    margin-top: 1rem;
+    color: #a00;
+    font-style: italic;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.result-card {
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: transform 0.2s ease;
+}
+
+.result-card:hover {
+    transform: translateY(-5px);
+}
+
+.result-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #222;
+}
+
+.result-description {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.result-meta {
+    list-style: none;
+    padding: 0;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.result-meta li {
+    margin-bottom: 0.3rem;
+}

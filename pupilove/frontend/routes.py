@@ -140,19 +140,15 @@ def my_reservation(request: Request):
 # WYSZUKIWANIE LISTINGOW
 @router.get("/search-listings", response_class=HTMLResponse)
 def search_listings(request: Request):
-    # pobieramy kategorie zwierzat jakie sa
     response = requests.get(f"{BACKEND_URL}/get-animal-categories")
     if response.ok:
-        # Trzeba napisac template ktory ma w sobie formularz html
-        # gdzie uzytkownik moze wpisac slowo kluczowe i zaznaczyc z dostepnych kategorii
-        # jakie zwierzeta go interesuja
-        # nastepnie jak przycisnie przycisk Search
-        # to ma go wyslac POST na /search-listings
         animal_categories = response.json()
-        templates.TemplateResponse(
+        return templates.TemplateResponse(
             "search_listings.html",
             {"request": request, "animal_categories": animal_categories},
         )
+    else:
+        ...
 
 
 @router.post("/search-listings", response_class=HTMLResponse)
@@ -161,18 +157,14 @@ def search_listings_result(
     keyword: str = Form(""),
     selected_categories: list[str] = Form([]),
 ):
-    # Odczytujemy dane z formularza
     payload = {"keyword": keyword, "categories": selected_categories}
-
-    # Pobieramy dane z naszego wyszukiwania
     response = requests.post(f"{BACKEND_URL}/search-listings", json=payload)
 
     if response.ok:
-        search_results = response.json()
+        search_results = response.json()["results"]
     else:
         search_results = []
 
-    # Trzeba napisac template ktory wyswietli te dane
     return templates.TemplateResponse(
         "search_results.html",
         {
