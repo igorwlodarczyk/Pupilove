@@ -1,5 +1,5 @@
 import logging
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from database import get_db_connection
 from fastapi.responses import JSONResponse
 
@@ -249,3 +249,46 @@ def get_user_reservations(reserver_user_id: int, db=Depends(get_db_connection)):
     params = (reserver_user_id,)
     result = db.execute_select(query, params)
     return {"reservations": result}
+
+
+# WYSZUKIWANIE LISTINGOW
+@router.get("/get-animal-categories", response_class=JSONResponse)
+def get_animal_categories(db=Depends(get_db_connection)):
+    """
+    Trzeba napisac selecta ktory zwroci jakie sa kategorie zwierzat w bazie danych
+    """
+    query = ...
+    params = ...  # opcjonalnie mozesz sparametryzowac query
+    result = db.execute_select(query, params)
+    return result
+
+
+@router.post("/search-listings", response_class=JSONResponse)
+async def search_listings(request: Request, db=Depends(get_db_connection)):
+    body = await request.json()
+    keyword = body.get("keyword", "").strip()
+    categories = body.get("categories", [])
+
+    # Trzeba napisac query i ewentualnie filtrowanie po stronie Pythona wynikow
+    # ktore zwroci pasujace listingi to keyworda i wybranych kategorii
+    query = ...
+    return ...
+
+
+# Dodanie listingu
+
+
+@router.post("/add-listing", response_class=JSONResponse)
+async def add_listing(request: Request, db=Depends(get_db_connection)):
+    body = await request.json()
+
+    title = body.get("title")
+    description = body.get("description")
+    animal_category_id = body.get("animal_category_id")
+    creator_user_id = body.get("creator_user_id")
+
+    # trzeba napisac query ktore utworzy listing
+    query = ...
+    params = ...
+    db.execute_insert()
+    return ...  # jak sie uda to informacja, ze jest ok
