@@ -1,0 +1,63 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.page-heading {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.form-title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #444;
+}
+
+.listing-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.listing-form label {
+    font-weight: 600;
+    color: #555;
+}
+
+.listing-form input,
+.listing-form textarea {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.listing-form input:focus,
+.listing-form textarea:focus {
+    outline: none;
+    border-color: #4caf50;
+}
+
+.submit-button {
+    padding: 0.75rem;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.submit-button:hover {
+    background-color: #43a047;
+}

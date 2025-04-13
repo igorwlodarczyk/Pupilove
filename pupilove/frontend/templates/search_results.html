@@ -1,35 +1,42 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wyniki wyszukiwania - 🐊 Pupilove</title>
+    <title>🐶 Pupilove - Search results</title>
+    <link rel="stylesheet" href="/static/search_results.css">
     <link rel="stylesheet" href="/static/base.css">
 </head>
 <body>
     <div class="container">
         <a href="/" class="home-link">
-            <h1 class="page-heading">🐊 Pupilove 🐊</h1>
+            <h1 class="page-heading">🐶 Pupilove 🐶</h1>
         </a>
 
-        <h2 class="section-heading">Wyniki wyszukiwania</h2>
-        <p><strong>Słowo kluczowe:</strong> {{ keyword }}</p>
+        <div class="results-header">
+            <h2>Search results for: <span class="highlight">{{ keyword }}</span></h2>
+            {% if results %}
+                <p class="info-text">{{ results|length }} result{{ results|length != 1 and 's' or '' }} found</p>
+            {% else %}
+                <p class="no-results">No results found. Try different keywords or categories.</p>
+            {% endif %}
+        </div>
 
-        {% if results.results %}
-            {% for listing in results.results %}
-                <div class="listing-details">
-                    <h3 class="listing-title">{{ listing.title }}</h3>
-                    <p><strong>Opis:</strong> {{ listing.description }}</p>
-                    <p><strong>Kategoria:</strong> {{ listing.animal_type }}</p>
-                    <p><strong>Lokalizacja:</strong> {{ listing.location_name }}</p>
-                    <p><strong>Wiek:</strong> {{ listing.age }} lat</p>
-                    <p><strong>Dodane przez:</strong> {{ listing.creator_user_name }}</p>
-                    <p><strong>Status:</strong> {{ listing.status }}</p>
+        <div class="results-grid">
+            {% for item in results %}
+                <div class="result-card">
+                    <h3 class="result-title">{{ item.title }}</h3>
+                    <p class="result-description">{{ item.description }}</p>
+                    <ul class="result-meta">
+                        <li><strong>Animal:</strong> {{ item.animal_type }}</li>
+                        <li><strong>Age:</strong> {{ item.age }} year{{ item.age != 1 and 's' or '' }}</li>
+                        <li><strong>Location:</strong> {{ item.location_name }}</li>
+                        <li><strong>Posted by:</strong> {{ item.creator_user_name }}</li>
+                        <li><strong>Published:</strong> {{ item.published_at }}</li>
+                    </ul>
                 </div>
             {% endfor %}
-        {% else %}
-            <p class="no-listings-message">Brak ogłoszeń pasujących do kryteriów wyszukiwania.</p>
-        {% endif %}
+        </div>
     </div>
 </body>
 </html>
