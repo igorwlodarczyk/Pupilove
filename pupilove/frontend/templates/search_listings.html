@@ -20,11 +20,22 @@
                 <input type="text" id="keyword" name="keyword" placeholder="Enter keyword...">
 
                 <label for="category">Animal category:</label>
-                <select id="category" name="category" required>
+                <select id="category" name="selected_categories" required>
                     {% for category in animal_categories %}
                         <option value="{{ category.id }}">{{ category.animal_type }}</option>
                     {% endfor %}
                 </select>
+
+                <!--
+                If multiple choice will be needed
+                <label for="selected_categories">Animal category:</label>
+                <select id="selected_categories" name="selected_categories" multiple size="3" required>
+                    {% for category in animal_categories %}
+                        <option value="{{ category.id }}">{{ category.animal_type }}</option>
+                    {% endfor %}
+                </select>
+                <small>You can select multiple categories by holding Ctrl (Windows) or Command (Mac).</small>
+                -->
 
                 <button type="submit" class="submit-button">Search</button>
             </form>
