@@ -135,3 +135,94 @@ def my_reservation(request: Request):
         )
     else:
         ...
+
+# WYSZUKIWANIE LISTINGOW
+@router.get("/search-listings", response_class=HTMLResponse)
+def search_listings(request: Request):
+    # pobieramy kategorie zwierzat jakie sa
+    response = requests.get(f"{BACKEND_URL}/get-animal-categories")
+    if response.ok:
+        # Trzeba napisac template ktory ma w sobie formularz html
+        # gdzie uzytkownik moze wpisac slowo kluczowe i zaznaczyc z dostepnych kategorii
+        # jakie zwierzeta go interesuja
+        # nastepnie jak przycisnie przycisk Search
+        # to ma go wyslac POST na /search-listings
+        animal_categories = response.json()
+        templates.TemplateResponse(
+            "search_listings.html",
+            {"request": request, "animal_categories": animal_categories},
+        )
+
+
+@router.post("/search-listings", response_class=HTMLResponse)
+def search_listings_result(
+    request: Request,
+    keyword: str = Form(""),
+    selected_categories: list[str] = Form([]),
+):
+    # Odczytujemy dane z formularza
+    payload = {"keyword": keyword, "categories": selected_categories}
+
+    # Pobieramy dane z naszego wyszukiwania
+    response = requests.post(f"{BACKEND_URL}/search-listings", json=payload)
+
+    if response.ok:
+        search_results = response.json()
+    else:
+        search_results = []
+
+    # Trzeba napisac template ktory wyswietli te dane
+    return templates.TemplateResponse(
+        "search_results.html",
+        {
+            "request": request,
+            "results": search_results,
+            "keyword": keyword,
+            "selected_categories": selected_categories,
+        },
+    )
+
+
+# Dodanie ogloszenia
+@router.get("/add-listing", response_class=HTMLResponse)
+def add_listing(request: Request):
+    # Trzeba napisac template add_listing ktory ma formularz
+    # gdzie uzytkownik moze wpisac dane swojego ogloszenia
+
+    response = requests.get(f"{BACKEND_URL}/get-animal-categories")
+    if response.ok:
+        animal_categories = response.json()
+        # uzytkownik zaznacza kategorie zwierzaka ogloszenia
+        # musi byc przycisk ADD w formularzu ktory wysyla request POST do /add-listing
+        return templates.TemplateResponse(
+            "add_listing.html",
+            {"request": request, "animal_categories": animal_categories},
+        )
+    else:
+        ...
+
+
+@router.post("/add-listing", response_class=HTMLResponse)
+def post_add_listing(
+    request: Request,
+    title: str = Form(...),
+    description: str = Form(...),
+    animal_category_id: int = Form(...),
+):
+    # user id jak wysylamy request to bierzemy to
+    user_id = DEFAULT_CREATOR_USER_ID
+    # jest to uproszczenie bo nie mamy logowania zrobionego
+    payload = {
+        "title": title,
+        "description": description,
+        "animal_category_id": animal_category_id,
+        "creator_user_id": user_id,
+    }
+
+    response = requests.post(f"{BACKEND_URL}/add-listing", json=payload)
+
+    if response.ok:
+        # przekierowanie do /my-listings
+        return RedirectResponse(url="/my-listings", status_code=303)
+    else:
+        ...

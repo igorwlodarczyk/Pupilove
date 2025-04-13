@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szukaj ogłoszeń - 🐊 Pupilove</title>
+    <link rel="stylesheet" href="/static/base.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="home-link">
+            <h1 class="page-heading">🐊 Pupilove 🐊</h1>
+        </a>
+
+        <h2 class="form-heading">Wyszukaj ogłoszenia</h2>
+
+        <form action="/search-listings" method="post">
+            <input type="text" name="keyword" placeholder="Szukaj...">
+        
+            {% for category in animal_categories %}
+                <label>
+                    <input type="checkbox" name="selected_categories" value="{{ category.id }}">
+                    {{ category.animal_type }}
+                </label><br>
+            {% endfor %}
+        
+            <button type="submit" class="button submit-button">Szukaj</button>
+        </form>
+        
+    </div>
+</body>
+</html>

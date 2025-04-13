@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj ogłoszenie - 🐊 Pupilove</title>
+    <link rel="stylesheet" href="/static/base.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="home-link">
+            <h1 class="page-heading">🐊 Pupilove 🐊</h1>
+        </a>
+
+        <h2 class="form-heading">Dodaj ogłoszenie</h2>
+
+        <form action="/add-listing" method="post" class="form">
+            <label for="title">Tytuł ogłoszenia:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="description">Opis:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+
+            <label for="animal_category_id">Kategoria zwierzaka:</label>
+            <select id="animal_category_id" name="animal_category_id" required>
+                {% for category in animal_categories %}
+                    <option value="{{ category.id }}">{{ category.animal_type }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="button submit-button">Dodaj ogłoszenie</button>
+        </form>
+    </div>
+</body>
+</html>
