@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐶 Pupilove - Search listings</title>
+    <link rel="stylesheet" href="/static/search_listings.css">
+    <link rel="stylesheet" href="/static/base.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="home-link">
+            <h1 class="page-heading">🐶 Pupilove 🐶</h1>
+        </a>
+
+        <div class="search-form-wrapper">
+            <h2 class="form-heading">Search for a pet listing</h2>
+            <form method="post" action="/search-listings" class="search-form">
+                <label for="keyword">Keyword:</label>
+                <input type="text" id="keyword" name="keyword" placeholder="Enter keyword...">
+
+                <label for="category">Animal category:</label>
+                <select id="category" name="selected_categories" required>
+                    {% for category in animal_categories %}
+                        <option value="{{ category.id }}">{{ category.animal_type }}</option>
+                    {% endfor %}
+                </select>
+
+                <!--
+                If multiple choice will be needed
+                <label for="selected_categories">Animal category:</label>
+                <select id="selected_categories" name="selected_categories" multiple size="3" required>
+                    {% for category in animal_categories %}
+                        <option value="{{ category.id }}">{{ category.animal_type }}</option>
+                    {% endfor %}
+                </select>
+                <small>You can select multiple categories by holding Ctrl (Windows) or Command (Mac).</small>
+                -->
+
+                <button type="submit" class="submit-button">Search</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

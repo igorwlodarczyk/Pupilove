@@ -1,5 +1,6 @@
 import logging
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
+from datetime import datetime
 from database import get_db_connection
 from fastapi.responses import JSONResponse
 
@@ -249,3 +250,104 @@ def get_user_reservations(reserver_user_id: int, db=Depends(get_db_connection)):
     params = (reserver_user_id,)
     result = db.execute_select(query, params)
     return {"reservations": result}
+
+# WYSZUKIWANIE LISTINGOW
+@router.get("/get-animal-categories", response_class=JSONResponse)
+def get_animal_categories(db=Depends(get_db_connection)):
+    """
+    Trzeba napisac selecta ktory zwroci jakie sa kategorie zwierzat w bazie danych
+    """
+    query = """
+            SELECT * FROM animal_categories;
+        """
+    result = db.execute_select(query)
+    return result
+
+
+@router.post("/search-listings", response_class=JSONResponse)
+async def search_listings(request: Request, db=Depends(get_db_connection)):
+    body = await request.json()
+    keyword = body.get("keyword", "").strip()
+    categories = body.get("categories", [])
+
+    conditions = ["listings.status = 'active'"]
+    params = []
+
+    if keyword:
+        conditions.append("(listings.title LIKE %s OR listings.description LIKE %s)")
+        keyword_param = f"%{keyword}%"
+        params.extend([keyword_param, keyword_param])
+
+    if categories:
+        placeholders = ', '.join(['%s'] * len(categories))
+        conditions.append(f"listings.animal_category_id IN ({placeholders})")
+        params.extend(categories)
+
+    where_clause = " AND ".join(conditions)
+
+    query = f"""
+        SELECT 
+            listings.id, 
+            listings.title, 
+            listings.creator_user_id, 
+            listings.published_at, 
+            listings.animal_category_id, 
+            listings.age, 
+            listings.location_id, 
+            listings.description, 
+            listings.status, 
+            locations.name AS location_name, 
+            animal_categories.animal_type,
+            users.username AS creator_user_name
+        FROM 
+            listings
+        JOIN 
+            locations ON listings.location_id = locations.id
+        JOIN 
+            animal_categories ON listings.animal_category_id = animal_categories.id
+        JOIN
+            users ON listings.creator_user_id = users.id
+        WHERE 
+            {where_clause};
+    """
+
+    result = db.execute_select(query, tuple(params))
+    return {"results": result}
+
+@router.post("/add-listing", response_class=JSONResponse)
+async def add_listing(request: Request, db=Depends(get_db_connection)):
+    body = await request.json()
+
+    title = body.get("title")
+    description = body.get("description")
+    animal_category_id = body.get("animal_category_id")
+    creator_user_id = body.get("creator_user_id")
+    age = body.get("age")
+    location_id = body.get("location_id")
+
+    if not all([title, description, animal_category_id, creator_user_id, location_id]):
+        raise HTTPException(status_code=400, detail="Missing required fields.")
+
+    query = """
+        INSERT INTO listings 
+        (title, description, animal_category_id, creator_user_id, age, location_id, status, published_at) 
+        VALUES (%s, %s, %s, %s, %s, %s, 'active', %s);
+    """
+    params = (
+        title,
+        description,
+        animal_category_id,
+        creator_user_id,
+        age,
+        location_id,
+        datetime.utcnow(),
+    )
+
+    listing_id = db.execute_insert(query, params)
+
+    return {
+        "message": "Listing created successfully.",
+        "listing_id": listing_id,
+        "title": title,
+        "status": "active"
+    }

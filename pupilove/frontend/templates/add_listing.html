@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>:dog: Pupilove - Add Listing</title>
+    <link rel="stylesheet" href="/static/add_listing.css">
+    <link rel="stylesheet" href="/static/base.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="home-link">
+            <h1 class="page-heading">🐶 Pupilove 🐶</h1>
+        </a>
+
+        <h2 class="form-title">Add a New Pet Listing</h2>
+
+        <form action="/add-listing" method="post" class="listing-form">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+
+            <label for="animal_category_id">Animal Category</label>
+            <select id="animal_category_id" name="animal_category_id" required>
+                {% for category in animal_categories %}
+                    <option value="{{ category.id }}">{{ category.animal_type }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="age">Age (in years)</label>
+            <input type="number" id="age" name="age" min="0" required>
+
+            <label for="location_id">Location ID</label>
+            <input type="number" id="location_id" name="location_id" min="1" required>
+
+            <button type="submit" class="submit-button">Add Listing</button>
+        </form>
+    </div>
+</body>
+</html>
