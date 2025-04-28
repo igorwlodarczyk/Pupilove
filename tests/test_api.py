@@ -2,6 +2,7 @@ import subprocess
 import re
 import os
 from pathlib import Path
+import matplotlib.pyplot as plt
 
 
 class ApacheBenchmark:
@@ -62,8 +63,19 @@ def benchmark_make_reservation():
 
 
 def benchmark_search_listings():
-    # TODO: Napisać benchmark dla endpointa /search-listings
-    ...
+    benchmark = ApacheBenchmark(
+        url="http://127.0.0.1:8000/search-listings",
+        post_data_file="data/search.json",
+    )
+    concurrency_values = [1, 5, 10, 25, 50, 100, 150]
+    time_per_request_output_list = []
+
+    for concurrency in concurrency_values:
+        print(
+            f"Started benchmark: Search listings endpoint. Concurrency: {concurrency}."
+        )
+        time_per_request_output_list.append(benchmark.run(concurrency=concurrency))
+    return concurrency_values, time_per_request_output_list
 
 
 def create_chart(
@@ -73,8 +85,20 @@ def create_chart(
     xlabel: str = "Number of multiple requests made at a time",
     ylabel: str = "Time per request [ms]",
 ):
-    # TODO: Funkcja ma tworzyć wykres i zapisywać go do pliku (np. przy użyciu matplotlib)
-    ...
+    plt.figure(figsize=(10, 6))
+    plt.plot(x, y, marker="o", linestyle="-", color="b")
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.grid(True)
+    plt.xticks(x)
+    plt.tight_layout()
+
+    filename = title.lower().replace(" ", "_") + ".png"
+    plt.savefig(filename)
+    print(f"Chart saved as {filename}")
+
+    plt.close()
 
 
 if __name__ == "__main__":
