@@ -1,0 +1,10 @@
+DELETE FROM reservations;
+DELETE FROM listings;
+DELETE FROM locations;
+DELETE FROM images;
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE images;
+TRUNCATE TABLE reservations;
+TRUNCATE TABLE listings;
+TRUNCATE TABLE locations;
+SET FOREIGN_KEY_CHECKS = 1;

@@ -9,7 +9,25 @@ INSERT INTO users (username, hashed_password, email, user_group) VALUES
 
 INSERT INTO animal_categories (animal_type) VALUES
 ('Dog'),
-('Cat');
+('Cat'),
+('Rabbit'),
+('Hamster'),
+('Guinea Pig'),
+('Bird'),
+('Fish'),
+('Turtle'),
+('Lizard'),
+('Snake'),
+('Ferret'),
+('Horse'),
+('Goat'),
+('Pig'),
+('Chicken'),
+('Duck'),
+('Frog'),
+('Chinchilla'),
+('Hedgehog'),
+('Mouse');
 
 INSERT INTO locations (name, gps_coordinates) VALUES
 ('New York', '40.7128,-74.0060'),

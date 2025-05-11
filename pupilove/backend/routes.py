@@ -98,11 +98,11 @@ def create_reservation(
     existing_reservation_check = db.execute_select(
         reservation_check_query, reservation_check_params
     )
-    if len(existing_reservation_check) > 0:
-        raise HTTPException(
-            status_code=400,
-            detail="You have already made a reservation for this listing.",
-        )
+    # if len(existing_reservation_check) > 0:
+    #     raise HTTPException(
+    #         status_code=400,
+    #         detail="You have already made a reservation for this listing.",
+    #     )
 
     query = """
     INSERT INTO reservations (listing_id, reserver_user_id) 
@@ -251,6 +251,7 @@ def get_user_reservations(reserver_user_id: int, db=Depends(get_db_connection)):
     result = db.execute_select(query, params)
     return {"reservations": result}
 
+
 # WYSZUKIWANIE LISTINGOW
 @router.get("/get-animal-categories", response_class=JSONResponse)
 def get_animal_categories(db=Depends(get_db_connection)):
@@ -279,7 +280,7 @@ async def search_listings(request: Request, db=Depends(get_db_connection)):
         params.extend([keyword_param, keyword_param])
 
     if categories:
-        placeholders = ', '.join(['%s'] * len(categories))
+        placeholders = ", ".join(["%s"] * len(categories))
         conditions.append(f"listings.animal_category_id IN ({placeholders})")
         params.extend(categories)
 
@@ -313,6 +314,7 @@ async def search_listings(request: Request, db=Depends(get_db_connection)):
 
     result = db.execute_select(query, tuple(params))
     return {"results": result}
+
 
 @router.post("/add-listing", response_class=JSONResponse)
 async def add_listing(request: Request, db=Depends(get_db_connection)):
@@ -349,5 +351,5 @@ async def add_listing(request: Request, db=Depends(get_db_connection)):
         "message": "Listing created successfully.",
         "listing_id": listing_id,
         "title": title,
-        "status": "active"
+        "status": "active",
     }

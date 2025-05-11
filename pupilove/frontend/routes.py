@@ -136,6 +136,7 @@ def my_reservation(request: Request):
     else:
         ...
 
+
 # WYSZUKIWANIE LISTINGOW
 @router.get("/search-listings", response_class=HTMLResponse)
 def search_listings(request: Request):
@@ -211,7 +212,7 @@ def post_add_listing(
         "animal_category_id": animal_category_id,
         "creator_user_id": user_id,
         "age": age,
-        "location_id": location_id
+        "location_id": location_id,
     }
 
     response = requests.post(f"{BACKEND_URL}/add-listing", json=payload)
