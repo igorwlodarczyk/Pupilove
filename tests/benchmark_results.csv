@@ -1,0 +1,19 @@
+Test Name,Concurrency,Time Per Request (ms)
+Make Reservation,1,44.417
+Make Reservation,5,103.348
+Make Reservation,10,588.967
+Make Reservation,25,1936.876
+Make Reservation,50,4702.53
+Make Reservation,100,11351.016
+Make Reservation,150,19755.322
+Make Reservation,250,27701.538
+Make Reservation,500,27967.662
+Search Listings,1,275.574
+Search Listings,5,1276.131
+Search Listings,10,2530.067
+Search Listings,25,7591.14
+Search Listings,50,13901.921
+Search Listings,100,25747.012
+Search Listings,150,38101.442
+Search Listings,250,71645.064
+Search Listings,500,132824.793
