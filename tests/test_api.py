@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import re
 import os
 import sys
+import csv
 from time import sleep
 from pathlib import Path
 
@@ -129,6 +130,14 @@ def create_chart(
 
     plt.close()
 
+def save_results_to_csv(filename, test_name, concurrency_values, time_per_request_values):
+    file_exists = os.path.isfile(filename)
+    with open(filename, mode="a", newline="") as file:
+        writer = csv.writer(file)
+        if not file_exists:
+            writer.writerow(["Test Name", "Concurrency", "Time Per Request (ms)"])
+        for c, t in zip(concurrency_values, time_per_request_values):
+            writer.writerow([test_name, c, t])
 
 if __name__ == "__main__":
     restart_db()
@@ -137,3 +146,7 @@ if __name__ == "__main__":
 
     create_chart(x_mr, y_mr, title="Make reservation endpoint benchmark")
     create_chart(x_sl, y_sl, title="Search listings endpoint benchmark")
+
+    save_results_to_csv("benchmark_results.csv", "Make Reservation", x_mr, y_mr)
+    save_results_to_csv("benchmark_results.csv", "Search Listings", x_sl, y_sl)
+
