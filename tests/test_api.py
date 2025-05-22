@@ -2,6 +2,7 @@ import subprocess
 import matplotlib.pyplot as plt
 import re
 import os
+import sys
 from time import sleep
 from pathlib import Path
 
@@ -51,7 +52,7 @@ class ApacheBenchmark:
             )
 
     def run(
-        self, concurrency: int, number_of_requests: int = 500, timeout: int = 60
+        self, concurrency: int, number_of_requests: int = 2000, timeout: int = 500
     ) -> float:
         """
         Returns time per request in ms
@@ -63,9 +64,13 @@ class ApacheBenchmark:
 
         command += f" {self.url}"
         command = list(command.split(" "))
-        output = subprocess.check_output(command, text=False).decode("utf-8")
-        time_per_request = self.parse_output(output)
-        return time_per_request
+        try:
+            output = subprocess.check_output(command, text=False).decode("utf-8")
+            time_per_request = self.parse_output(output)
+            return time_per_request
+        except Exception as e:
+            print(f"Error - concurrency {concurrency}: {type(e)} - {e}")
+            return sys.maxsize
 
 
 def benchmark_make_reservation():
@@ -73,7 +78,7 @@ def benchmark_make_reservation():
         url="http://127.0.0.1:8000/make-reservation/2",
         post_data_file="data/reservation.json",
     )
-    concurrency_values = [1, 5, 10, 25, 50, 100, 150, 250]
+    concurrency_values = [1, 5, 10, 25, 50, 100, 150, 250, 500]
     time_per_request_output_list = []
 
     for concurrency in concurrency_values:
@@ -90,7 +95,7 @@ def benchmark_search_listings():
         url="http://127.0.0.1:8000/search-listings",
         post_data_file="data/search.json",
     )
-    concurrency_values = [1, 5, 10, 25, 50, 100, 150, 300]
+    concurrency_values = [1, 5, 10, 25, 50, 100, 150, 250, 500]
     time_per_request_output_list = []
 
     for concurrency in concurrency_values:
