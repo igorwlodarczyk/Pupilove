@@ -3,8 +3,8 @@ import random
 
 CREATOR_USER_ID = 3
 RESERVER_USER_ID = 1
-NUMBER_OF_LOCATIONS = 125_000
-NUMBER_OF_LISTINGS = 250_000
+NUMBER_OF_LOCATIONS = 25_000
+NUMBER_OF_LISTINGS = 5_000
 
 
 def generate_locations(number_of_locations: int) -> str:
