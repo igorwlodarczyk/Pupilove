@@ -79,7 +79,7 @@ def benchmark_make_reservation():
         url="http://127.0.0.1:8000/make-reservation/2",
         post_data_file="data/reservation.json",
     )
-    concurrency_values = [1, 5, 10, 25, 50, 100, 150, 250, 500]
+    concurrency_values = [1, 5, 10, 25, 50, 75, 100, 150, 250]
     time_per_request_output_list = []
 
     for concurrency in concurrency_values:
@@ -96,7 +96,7 @@ def benchmark_search_listings():
         url="http://127.0.0.1:8000/search-listings",
         post_data_file="data/search.json",
     )
-    concurrency_values = [1, 5, 10, 25, 50, 100, 150, 250, 500]
+    concurrency_values = [1, 5, 10, 25, 50, 75, 100, 150, 250]
     time_per_request_output_list = []
 
     for concurrency in concurrency_values:
@@ -130,6 +130,7 @@ def create_chart(
 
     plt.close()
 
+
 def save_results_to_csv(filename, test_name, concurrency_values, time_per_request_values):
     file_exists = os.path.isfile(filename)
     with open(filename, mode="a", newline="") as file:
@@ -138,6 +139,7 @@ def save_results_to_csv(filename, test_name, concurrency_values, time_per_reques
             writer.writerow(["Test Name", "Concurrency", "Time Per Request (ms)"])
         for c, t in zip(concurrency_values, time_per_request_values):
             writer.writerow([test_name, c, t])
+
 
 if __name__ == "__main__":
     restart_db()

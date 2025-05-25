@@ -23,7 +23,7 @@ docker run -d \
   --name $CONTAINER_NAME \
   -e MYSQL_ROOT_PASSWORD=root_password \
   -p $DB_PORT:3306 \
-  --cpus="0.75" \
+  --cpus="0.8" \
   --memory="2g" \
   --memory-swap="10g" \
   percona:latest
