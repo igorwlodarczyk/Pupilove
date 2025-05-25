@@ -23,14 +23,18 @@ docker run -d \
   --name $CONTAINER_NAME \
   -e MYSQL_ROOT_PASSWORD=root_password \
   -p $DB_PORT:3306 \
+  --cpus="0.75" \
+  --memory="2g" \
+  --memory-swap="10g" \
   percona:latest
 
 # Wait for the container to start
 echo "Waiting for the container to start..."
-sleep 60
+sleep 120
 
 # Create user and database
 docker exec -i $CONTAINER_NAME mysql -uroot -proot_password <<EOF
+SET GLOBAL max_connections = 2500;
 CREATE DATABASE IF NOT EXISTS $DB_NAME;
 CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';
 GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';
