@@ -131,7 +131,9 @@ def create_chart(
     plt.close()
 
 
-def save_results_to_csv(filename, test_name, concurrency_values, time_per_request_values):
+def save_results_to_csv(
+    filename, test_name, concurrency_values, time_per_request_values
+):
     file_exists = os.path.isfile(filename)
     with open(filename, mode="a", newline="") as file:
         writer = csv.writer(file)
@@ -151,4 +153,3 @@ if __name__ == "__main__":
 
     save_results_to_csv("benchmark_results.csv", "Make Reservation", x_mr, y_mr)
     save_results_to_csv("benchmark_results.csv", "Search Listings", x_sl, y_sl)
-
